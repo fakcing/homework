@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "assets": [
+    { "key": "sheet", "type": "image", "src": "/assets/sprites.png", "required": true },
+    { "key": "atlas", "type": "json", "src": "/assets/atlas.json", "required": true },
+    { "key": "fire", "type": "audio", "src": "/assets/fire.wav", "required": false },
+    { "key": "hit", "type": "audio", "src": "/assets/hit.wav", "required": false },
+    { "key": "explode", "type": "audio", "src": "/assets/explode.wav", "required": false },
+    { "key": "pickup", "type": "audio", "src": "/assets/pickup.wav", "required": false }
+  ]
+}
