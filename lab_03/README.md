@@ -164,5 +164,5 @@ console.log("sync");
 - [x] спрайти зі спрайтшита; Web Audio після жесту, буфери декодуються при завантаженні; шина `EventTarget` (`fired`/`hit`/`exploded`)
 - [x] `Lobby extends EventTarget`, DOM окремо, інтервал, `AbortSignal.timeout`, abort при виході
 - [x] README: sequential vs concurrent, головоломки, галерея збоїв
-- [ ] Заповнити браузерні виміри і вивід головоломки 5
-- [ ] Тег `lab-03`
+- [x] Заповнити браузерні виміри і вивід головоломки 5
+- [x] Тег `lab-03`
