@@ -1,0 +1,32 @@
+{
+  "name": "dogfight",
+  "private": true,
+  "version": "0.5.0",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev -w @dogfight/server",
+    "dev:client": "npm run dev -w @dogfight/client",
+    "build": "npm run build -w @dogfight/client",
+    "start": "npm run start -w @dogfight/server",
+    "test": "npm test --workspaces --if-present",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "concurrently": "^10.0.5",
+    "eslint": "^10.12.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9"
+  }
+}
