@@ -1,0 +1,17 @@
+{
+  "name": "@dogfight/shared",
+  "private": true,
+  "version": "0.5.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "tsx --test \"test/**/*.test.ts\"",
+    "bench": "tsx scripts/bench-codec.mjs",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

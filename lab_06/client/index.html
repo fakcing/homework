@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dogfight — Lab 01</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #0a0a0f;
+        overflow: hidden;
+        color-scheme: dark;
+      }
+      #game {
+        display: block;
+        width: 100vw;
+        height: 100vh;
+      }
+      #overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        pointer-events: none;
+        font:
+          14px/1.4 system-ui,
+          -apple-system,
+          sans-serif;
+        color: #f5f5f7;
+      }
+      #overlay.visible {
+        display: grid;
+      }
+      #overlay > * {
+        pointer-events: auto;
+      }
+      .card {
+        width: min(420px, calc(100vw - 32px));
+        padding: 24px;
+        border-radius: 20px;
+        background: rgba(28, 28, 32, 0.82);
+        backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: grid;
+        gap: 8px;
+      }
+      .card h1 {
+        margin: 0 0 8px;
+        font-size: 24px;
+        font-weight: 600;
+      }
+      .card label {
+        color: rgba(245, 245, 247, 0.55);
+        font-size: 12px;
+        margin-top: 6px;
+      }
+      .card input {
+        padding: 10px 12px;
+        border-radius: 10px;
+        font: inherit;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .rooms {
+        display: grid;
+        gap: 6px;
+      }
+      .room {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: left;
+        transition:
+          transform 0.15s,
+          background 0.15s,
+          border-color 0.15s;
+      }
+      .room.selected {
+        border-color: #0a84ff;
+        background: rgba(10, 132, 255, 0.18);
+      }
+      .room:disabled {
+        opacity: 0.4;
+      }
+      .room span {
+        color: rgba(245, 245, 247, 0.6);
+      }
+      button {
+        padding: 10px 14px;
+        border-radius: 10px;
+        font: inherit;
+        color: inherit;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition:
+          transform 0.15s,
+          background 0.15s;
+      }
+      button:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.14);
+        transform: translateY(-1px);
+      }
+      button:active:not(:disabled) {
+        transform: scale(0.98);
+      }
+      button.primary {
+        background: #0a84ff;
+        border-color: #0a84ff;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .row {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 6px;
+      }
+      .status,
+      .hint {
+        margin: 0;
+        font-size: 12px;
+        color: rgba(245, 245, 247, 0.55);
+      }
+      .status.error,
+      .hint {
+        color: #ff453a;
+      }
+      .toolbar {
+        position: fixed;
+        bottom: 40px;
+        display: flex;
+        gap: 8px;
+      }
+      .chat {
+        position: fixed;
+        left: 16px;
+        bottom: 16px;
+        width: min(320px, calc(100vw - 32px));
+        display: grid;
+        gap: 6px;
+        padding: 10px;
+        border-radius: 14px;
+        font:
+          12px/1.4 system-ui,
+          sans-serif;
+        color: #f5f5f7;
+        background: rgba(28, 28, 32, 0.72);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .chat-title {
+        color: rgba(245, 245, 247, 0.55);
+      }
+      .chat-log {
+        max-height: 140px;
+        overflow-y: auto;
+        display: grid;
+        gap: 2px;
+        align-content: end;
+      }
+      .chat-line.system {
+        color: rgba(245, 245, 247, 0.5);
+        font-style: italic;
+      }
+      .chat-input {
+        padding: 8px 10px;
+        border-radius: 8px;
+        font: inherit;
+        color: inherit;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      #error {
+        position: fixed;
+        inset: 0;
+        display: none;
+        place-items: center;
+        padding: 24px;
+        background: rgba(10, 10, 15, 0.92);
+        color: #ff453a;
+        font:
+          14px/1.5 ui-monospace,
+          SFMono-Regular,
+          Menlo,
+          monospace;
+        white-space: pre-wrap;
+      }
+      #error.visible {
+        display: grid;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="game" aria-label="Game arena"></canvas>
+    <div id="overlay"></div>
+    <div id="error" role="alert"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

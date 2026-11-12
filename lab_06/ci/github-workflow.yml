@@ -1,0 +1,21 @@
+# Copy to <repo root>/.github/workflows/lab-06.yml (GitHub only reads workflows from the repository root).
+name: lab-06
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: lab_06
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: npm, cache-dependency-path: lab_06/package-lock.json }
+      - run: npm ci
+      - run: npm run typecheck          # tsc --noEmit for shared, server, client (strict + noUncheckedIndexedAccess)
+      - run: npm run check:assertions   # fewer than 5 `as`, each explained
+      - run: npm run lint
+      - run: npm test
+      - run: npm run build
