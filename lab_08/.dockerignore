@@ -1,0 +1,8 @@
+node_modules
+.git
+coverage
+test-results
+dist
+logs
+artifacts
+*.7z

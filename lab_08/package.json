@@ -1,0 +1,50 @@
+{
+  "name": "dogfight",
+  "private": true,
+  "version": "0.8.0",
+  "type": "module",
+  "workspaces": [
+    "shared",
+    "client",
+    "server"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,client -c blue,green \"npm:dev:server\" \"npm:dev:client\"",
+    "dev:server": "npm run dev -w @dogfight/server",
+    "dev:client": "npm run dev -w @dogfight/client",
+    "build": "npm run build -w @dogfight/client",
+    "start": "npm run start -w @dogfight/server",
+    "test": "npm test --workspaces --if-present && npm run test:vitest",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc -p shared && tsc -p server && tsc -p client",
+    "check:assertions": "node scripts/check-assertions.mjs",
+    "ci": "npm run typecheck && npm run check:assertions && npm run lint && npm run format:check && npm test && npm run coverage:shared && npm run build:server && npm run build",
+    "test:vitest": "vitest run shared/test/lab07.vitest.ts server/test/lab07.vitest.ts server/test/lab08.vitest.ts client/test/lab07.vitest.ts",
+    "coverage:shared": "vitest run shared/test/lab07.vitest.ts --coverage --coverage.include=shared/src/**/*.ts --coverage.reporter=text --coverage.reporter=html",
+    "playwright": "playwright test -c playwright.config.ts",
+    "load": "tsx scripts/load.ts",
+    "profile": "tsx scripts/profile.ts",
+    "build:server": "esbuild server/src/index.ts --bundle --platform=node --format=esm --external:pino --external:ws --external:zod --outfile=dist/server/index.js"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^26.6.6",
+    "@types/ws": "^8.18.2",
+    "@vitest/coverage-v8": "^4.0.0",
+    "concurrently": "^10.0.5",
+    "eslint": "^10.12.0",
+    "fast-check": "^4.5.3",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vitest": "^4.0.0"
+  }
+}

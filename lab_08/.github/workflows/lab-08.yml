@@ -1,0 +1,32 @@
+name: lab-08
+on:
+  push:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run check:assertions
+      - run: npm run lint
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run coverage:shared
+      - run: npm run build:server
+      - run: npm run build
+      - name: Build image
+        run: docker build --build-arg GIT_SHA=${{ github.sha }} -t dogfight:test .
+      - name: Smoke test health, ready and metrics
+        run: |
+          docker run -d --name dogfight -p 3000:3000 -e ALLOWED_ORIGINS='*' dogfight:test
+          for i in $(seq 1 30); do curl --fail http://127.0.0.1:3000/health && break || sleep 1; done
+          curl --fail http://127.0.0.1:3000/ready
+          curl --fail http://127.0.0.1:3000/metrics | grep dogfight_players
+          docker stop --time=10 dogfight
+          test "$(docker inspect -f '{{.State.ExitCode}}' dogfight)" = 0

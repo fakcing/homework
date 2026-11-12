@@ -1,0 +1,12 @@
+services:
+  dogfight:
+    build:
+      context: .
+      args:
+        GIT_SHA: ${GIT_SHA:-dev}
+    environment:
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-*}
+      MAX_CONNECTIONS_PER_IP: ${MAX_CONNECTIONS_PER_IP:-32}
+    ports:
+      - "${PORT:-3000}:3000"
+    stop_grace_period: 10s

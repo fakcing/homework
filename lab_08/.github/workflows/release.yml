@@ -1,0 +1,50 @@
+name: publish-and-deploy
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: read
+  packages: write
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/${{ github.repository }}
+          tags: type=ref,event=tag
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          build-args: GIT_SHA=${{ github.sha }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+  deploy:
+    needs: image
+    runs-on: ubuntu-latest
+    env:
+      DEPLOY_WEBHOOK: ${{ secrets.DEPLOY_WEBHOOK }}
+      DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+    steps:
+      - name: Skip deployment when no hosting webhook is configured
+        if: ${{ env.DEPLOY_WEBHOOK == '' }}
+        run: echo "Set DEPLOY_WEBHOOK and DEPLOY_TOKEN repository secrets to enable deployment."
+      - name: Ask hosting provider to deploy the immutable tag
+        if: ${{ env.DEPLOY_WEBHOOK != '' }}
+        env:
+          IMAGE: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          SHA: ${{ github.sha }}
+        run: |
+          test -n "$DEPLOY_WEBHOOK"
+          curl --fail --retry 3 -X POST "$DEPLOY_WEBHOOK" \
+            -H "Authorization: Bearer $DEPLOY_TOKEN" \
+            -H "Content-Type: application/json" \
+            -d "{\"image\":\"$IMAGE\",\"sha\":\"$SHA\"}"

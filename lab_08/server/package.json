@@ -1,0 +1,24 @@
+{
+  "name": "@dogfight/server",
+  "private": true,
+  "version": "0.8.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "start": "tsx src/index.ts",
+    "dev": "tsx watch src/index.ts",
+    "test": "tsx --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc -p .",
+    "demo:phases": "node scripts/phases.mjs",
+    "demo:loop": "node scripts/eventloop-demo.mjs",
+    "demo:rss": "tsx scripts/rss-demo.mjs",
+    "test:vitest": "vitest run test/lab07.vitest.ts"
+  },
+  "dependencies": {
+    "@dogfight/shared": "*",
+    "pino": "^9.14.0",
+    "ws": "^8.22.0"
+  }
+}
