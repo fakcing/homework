@@ -1,0 +1,27 @@
+{
+  "name": "@dogfight/client",
+  "private": true,
+  "version": "0.7.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "bench": "tsx scripts/bench-loading.mjs",
+    "puzzle": "node scripts/puzzles.mjs",
+    "gen:assets": "python3 scripts/generate-assets.py",
+    "test": "tsx --test \"test/**/*.test.ts\"",
+    "typecheck": "tsc -p .",
+    "netlab": "tsx scripts/netlab.mjs",
+    "test:vitest": "vitest run test/lab07.vitest.ts"
+  },
+  "devDependencies": {
+    "vite": "^8.3.2"
+  },
+  "dependencies": {
+    "@dogfight/shared": "*"
+  }
+}

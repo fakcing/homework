@@ -1,0 +1,7 @@
+dist
+package-lock.json
+logs
+client/public/assets/manifest.broken.json
+coverage
+test-results
+artifacts/profile-after.json

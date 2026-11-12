@@ -1,0 +1,17 @@
+{
+  "seconds": 30,
+  "bots": 8,
+  "frameMs": {
+    "p50": 0.04541100000000142,
+    "p95": 0.13952000000000453,
+    "p99": 0.2729030000000421,
+    "max": 3.145580999999993
+  },
+  "gcPauseMs": "run node --trace-gc --expose-gc to capture exact pauses",
+  "bulletPool": {
+    "created": 24,
+    "reused": 477,
+    "available": 7
+  },
+  "elapsedMs": 67.83659399999999
+}
